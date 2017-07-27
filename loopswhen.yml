@@ -1,0 +1,10 @@
+---
+ - hosts: database
+   become: true
+   tasks:
+    - name: if os family redhat install httpd
+      yum: 
+        name: httpd
+        state: latest
+      when: ansible_os_family == "MostlyLinux"
+ 

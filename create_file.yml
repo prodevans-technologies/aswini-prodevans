@@ -1,0 +1,10 @@
+---
+ - hosts: database
+   vars:
+     create_file: true
+   tasks:
+     - name: create a file
+       file:
+        state: touch
+        path: /home/devops/variable
+       when: create_file

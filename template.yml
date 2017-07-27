@@ -1,0 +1,23 @@
+---
+ - hosts: centos
+   become: true
+   vars:
+     description: "{{ ansible_hostname }}"
+   tasks:
+    - name: install httpd
+      yum: name=httpd state=latest
+    - name: start httpd service
+      service: name=httpd state=started
+    - name: write a index file
+      template:
+        src: template.j2
+        dest: /var/www/html/index1.html
+      notify:
+      - restart httpd
+      - name: ensure httpd is running
+        service: name=httpd state=running
+   handlers:
+      - name: restart httpd
+        service: name=httpd state=restarted
+ 
+

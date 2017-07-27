@@ -1,0 +1,11 @@
+---
+ - hosts: database
+   become: true
+   tasks:
+    - name: print
+      command: echo " hello world "
+      register: hello
+    - debug: msg="stdout={{ hello.stdout }}"
+    - debug: msg="stderr={{ hello.stderr }}"
+    
+             

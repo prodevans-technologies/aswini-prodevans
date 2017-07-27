@@ -1,0 +1,15 @@
+---
+ - hosts: centos
+   become: true
+   remote_user: devops
+   tasks:
+    - name: install maridb
+      yum: 
+       name: mariadb-server
+       state: latest
+    - name: start maridb service
+      service:
+       name: mariadb
+       state: started
+    - name: create aswini account
+      mysql_user: name=aswini host="%" password=redhat priv=*.*:ALL state=present

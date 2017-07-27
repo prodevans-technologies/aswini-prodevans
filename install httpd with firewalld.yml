@@ -1,0 +1,38 @@
+---
+ - hosts: centos
+   become: true
+   remote_user: devops
+   tasks:
+    - name: install httpd service
+      yum:
+       name: httpd
+       state: latest
+
+    - name: start httpd service
+      service:
+       name: httpd
+       state: started
+
+    - name: create a index.html file
+      file:
+       state: touch
+       path: /var/www/html/index.html
+
+    - name: add lines in index.html
+      lineinfile:
+       state: present
+       dest: /var/www/html/index.html
+       line: welcome to "{{ ansible_hostname }}"
+
+    - name: enable firewalld for httpd
+      command: firewall-cmd --permanent --add-service=http
+
+    - name: reload firewalld
+      command: firewall-cmd --reload
+
+    - name: restart httpd service
+      service:
+       name: httpd
+       state: reloaded
+       enabled: yes
+          
